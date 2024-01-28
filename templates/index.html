@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Registration</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- jQuery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- QR CDN -->
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div id="notification" class="alert alert-success hidden" role="alert">
+        <h4 class="alert-heading">Registered Sucessfully!</h4>
+        <p>Aww yeah, you're successfully registered to our system.</p>
+        <p>Your registration code is <b id="reg-id">id goes here</b></p>
+        <div id="qrcode"></div>
+        <hr>
+        <p>What do you need to do next?</p>
+        <div class="text-center">
+          <button id="edit-btn" class="btn btn-info btn-outline mb-2">Edit My Submission</button>
+          <button id="new-btn" class="btn btn-warning btn-outline mb-2">Make New Submission</button>
+        </div>
+      </div>
+      <form class="col-12 col-xl-8 card">
+        <div class="text-center">
+          <h1 class="display-4">Registration</h1>
+        </div>
+        <p>
+          Dear Guest, please enter your registration info here.
+        </p>
+        <input type="hidden" id="request-id">
+        <div class="mb-3">
+          <label for="arrival-date" class="form-label">
+            Arrival Date <span class="text-danger">*</span>
+          </label>
+          <input type="date" class="form-control" id="arrival-date">
+          <div id="arrival-date-help" class="form-text text-danger hidden">This field is required.</div>
+        </div>
+        <div class="mb-3">
+          <label for="departure-date" class="form-label">
+            Departure Date <span class="text-danger">*</span>
+          </label>
+          <input type="date" class="form-control" id="departure-date">
+          <div id="departure-date-help" class="form-text text-danger hidden">This field is required.</div>
+        </div>
+        <div class="mb-3">
+          <label for="hotel-name" class="form-label">
+            Hotel Name <span class="text-danger">*</span>
+          </label>
+          <select id="hotel-name" class="form-label form-select">
+          </select>
+          <div id="hotel-name-help" class="form-text text-danger hidden">This field is required.</div>
+        </div>
+        <div class="mb-3">
+          <label for="full-name" class="form-label">
+            First and Last Name <span class="text-danger">*</span>
+          </label>
+          <input type="text" class="form-control" id="full-name">
+          <div id="full-name-help" class="form-text text-danger hidden">This field is required.</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Registration Location</label>
+          <div class="form-check">
+            <input
+              type="radio"
+              class="form-check-input"
+              id="location1"
+              name="location-radio"
+              value="false" checked>Directly at the agency
+            <label class="form-check-label" for="location1"></label>
+          </div>
+          <div class="form-check">
+            <input
+              type="radio"
+              class="form-check-input"
+              id="location2"
+              name="location-radio"
+              value="true">From a distance (via WhatsApp)
+            <label class="form-check-label" for="location1"></label>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Gender</label>
+          <div class="form-check">
+            <input
+              type="radio"
+              class="form-check-input"
+              id="gender1"
+              name="gender-radio"
+              value="Female" checked>Female
+            <label class="form-check-label" for="gender1"></label>
+          </div>
+          <div class="form-check">
+            <input
+              type="radio"
+              class="form-check-input"
+              id="gender2"
+              name="gender-radio"
+              value="Male">Male
+            <label class="form-check-label" for="gender2"></label>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">
+            E-mail Address <span class="text-danger">*</span>
+          </label>
+          <input type="email" class="form-control" id="email">
+          <div id="email-help" class="form-text text-danger hidden">This field is required.</div>
+        </div>
+        <div class="mb-3">
+          <label for="whatsapp" class="form-label">
+            WhatsApp Number <span class="text-danger">*</span>
+          </label>
+          <input type="tel" class="form-control" id="whatsapp">
+          <div id="whatsapp-help" class="form-text text-danger hidden">This field is required.</div>
+        </div>
+        <div class="mb-3">
+          <label for="phone" class="form-label">
+            Phone in Egypt <span class="text-danger">*</span>
+          </label>
+          <input type="tel" class="form-control" id="phone">
+          <div id="phone-help" class="form-text text-danger hidden">This field is required.</div>
+        </div>
+        <div class="mb-3">
+          <label for="city" class="form-label">
+            City & Country of Residence <span class="text-danger">*</span>
+          </label>
+          <input type="text" class="form-control" id="city">
+          <div id="city-help" class="form-text text-danger hidden">This field is required.</div>
+        </div>
+        <div class="mb-3">
+          <label for="nationality" class="form-label">
+            Nationality <span class="text-danger">*</span>
+          </label>
+          <select id="nationality" class="form-label form-select">
+          </select>
+          <div id="nationality-date-help" class="form-text text-danger hidden">This field is required.</div>
+        </div>
+        <div class="mb-3">
+          <label for="date-of-birth" class="form-label">
+            Date of Birth <span class="text-danger">*</span>
+          </label>
+          <input type="date" class="form-control" id="date-of-birth">
+          <div id="date-of-birth-help" class="form-text text-danger hidden">This field is required.</div>
+        </div>
+        <div class="mb-3">
+          <label for="adults" class="form-label">
+            Adults Number
+          </label>
+          <input type="number" class="form-control" id="adults" value="0" min="0">
+        </div>
+        <div class="mb-3">
+          <label for="children" class="form-label">
+            Children Number
+          </label>
+          <input type="number" class="form-control" id="children" value="0" min="0">
+        </div>
+        <div class="mb-3">
+          <label for="infants" class="form-label">
+            Infants Number
+          </label>
+          <input type="number" class="form-control" id="infants" value="0" min="0">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2" style="min-width: 120px;">
+          Submit
+          <div id="spinner" class="spinner-border spinner-border-sm hidden" role="status">
+            <span class="sr-only"></span>
+          </div>
+        </button>
+        <button type="button" id="reset-btn" class="btn btn-warning">Reset</button>
+      </form>
+    </div>
+  </body>
+  <script>
+    let isSubmitted = false;
+    $(document).ready(function() {
+      getHotelOptions();
+      getNationalityOptions();
+      $('#reset-btn').click(function() {
+        $('form').trigger('reset');
+        isSubmitted = false;
+        $('html, body').animate({scrollTop: 0}, 'slow');
+      });
+      $('#edit-btn').click(function() {
+        $('form').show();
+        $('#notification').addClass('hidden');
+      });
+      $('#new-btn').click(function() {
+        $('form').trigger('reset');
+        isSubmitted = false;
+        $('form').show();
+        $('#notification').addClass('hidden');
+      });
+      $('#arrival-date').on('change', function() {
+        if (isSubmitted) {
+          isValidInput('arrival-date');
+        }
+      });
+      $('#departure-date').on('change', function() {
+        if (isSubmitted) {
+          isValidInput('departure-date');
+        }
+      });
+      $('#hotel-name').on('change', function() {
+        if (isSubmitted) {
+          isValidInput('hotel-name');
+        }
+      });
+      $('#full-name').on('change', function() {
+        if (isSubmitted) {
+          isValidInput('full-name');
+        }
+      });
+      $('#email').on('change', function() {
+        if (isSubmitted) {
+          isValidInput('email');
+        }
+      });
+      $('#whatsapp').on('change', function() {
+        if (isSubmitted) {
+          isValidInput('whatsapp');
+        }
+      });
+      $('#phone').on('change', function() {
+        if (isSubmitted) {
+          isValidInput('phone');
+        }
+      });
+      $('#city').on('change', function() {
+        if (isSubmitted) {
+          isValidInput('city');
+        }
+      });
+      $('#nationality').on('change', function() {
+        if (isSubmitted) {
+          isValidInput('nationality');
+        }
+      });
+      $('#date-of-birth').on('change', function() {
+        if (isSubmitted) {
+          isValidInput('date-of-birth');
+        }
+      });
+    });
+    $('form').submit(function(e) {
+      e.preventDefault();
+      isSubmitted = true;
+      console.log('validating...');
+      if (!validForm()) {
+        $('html, body').animate({scrollTop: 0}, 'slow');
+        return;
+      }
+      console.log('submitting...');
+      const requestData = {
+        guestinfoid: $('#request-id').val(),
+        arrivaldate: $('#arrival-date').val(),
+        departuredate: $('#departure-date').val(),
+        guestname: $('#full-name').val(),
+        viawhatsapp: $('input[name="location-radio"]:checked').val() === 'true',
+        genderfemale: $('input[name="gender-radio"]:checked').val() === 'Female',
+        mailaddress: $('#email').val(),
+        cityresidence: $('#city').val(),
+        country: $('#nationality').val(),
+        whatsappphone: $('#whatsapp').val(),
+        phoneegypt: $('#phone').val(),
+        dateofbirth: $('#date-of-birth').val(),
+        hotelname: $('#hotel-name').val(),
+        adult: $('#adults').val(),
+        child: $('#children').val(),
+        inf: $('#infants').val(),
+      };
+      console.log(requestData);
+      if (requestData.guestinfoid === '') {
+        submitRequest(requestData);
+      } else {
+        editRequest(requestData);
+      }
+    });
+    function validForm() {
+      let result = true;
+      if (!isValidInput('arrival-date')) {result = false; }
+      if (!isValidInput('departure-date')) { result = false; }
+      if (!isValidInput('hotel-name')) { result = false; }
+      if (!isValidInput('full-name')) { result = false; }
+      if (!isValidInput('email')) { result = false; }
+      if (!isValidInput('whatsapp')) { result = false; }
+      if (!isValidInput('phone')) { result = false; }
+      if (!isValidInput('city')) { result = false; }
+      if (!isValidInput('nationality')) { result = false; }
+      if (!isValidInput('date-of-birth')) { result = false; }
+      console.log(result);
+      return result;
+    }
+    function isValidInput(inputId) {
+      if (!isSubmitted) { return true; }
+      const inputElement = $(`#${inputId}`);
+      if (inputElement.val() === '') {
+        inputElement.addClass('is-invalid');
+        $(`#${inputId}-help`).removeClass('hidden');
+        console.log(inputId, 'is valid = ', false);
+        return false;
+      } else {
+        inputElement.removeClass('is-invalid');
+        $(`#${inputId}-help`).addClass('hidden');
+        console.log(inputId, 'is valid = ', true);
+        return true;
+      }
+    }
+    function getHotelOptions() {
+      $.ajax({
+        url: 'http://159.223.250.9/api/hotels/', // Your API endpoint URL
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+          console.log(data);
+          // Handle the successful response here
+          const hotelName = $('#hotel-name');
+          hotelName.empty();
+          hotelName.append($('<option>', {
+            value: '',
+            text: 'Select Option',
+          }));
+          $.each(data, function(index, option) {
+            hotelName.append($('<option>', {
+              value: option.hotelid,
+              text: option.hotel,
+            }));
+          });
+          hotelName.val(null);
+        },
+        error: function(xhr, status, error) {
+          console.error('Error:', status, error);
+        }
+      });
+
+    }
+
+    function getNationalityOptions() {
+      $.ajax({
+        url: 'http://159.223.250.9/api/nationality/', // Your API endpoint URL
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+          // Handle the successful response here
+          console.log('Success:', data);
+          const nationality = $('#nationality');
+          nationality.empty();
+          nationality.append($('<option>', {
+            value: '',
+            text: 'Select Option',
+          }));
+          $.each(data, function(index, option) {
+            nationality.append($('<option>', {
+              value: option.nationalityid,
+              text: option.nationality,
+            }));
+          });
+          nationality.val(null);
+        },
+        error: function(xhr, status, error) {
+          console.error('Error:', status, error);
+        }
+      });
+
+    }
+
+    function submitRequest(requestData) {
+      $('#spinner').removeClass('hidden');
+      $.ajax({
+        url: 'http://159.223.250.9/api/create-registration/', // Your API endpoint URL
+        type: 'POST',
+        data: requestData,
+        dataType: 'json',
+        success: function(data) {
+          // Handle the successful response here
+          console.log('Success:', data);
+          $('#reg-id').text(data.guestinfoid);
+          generateQrCode(data.guestinfoid);
+          $('#request-id').val(data.guestinfoid);
+          $('#notification').removeClass('hidden');
+          $('form').hide();
+          $('#spinner').addClass('hidden');
+          $('html, body').animate({scrollTop: 0}, 'slow');
+        },
+        error: function(xhr, status, error) {
+          console.error('Error:', status, error);
+          $('#spinner').addClass('hidden');
+        }
+      });
+    }
+    function editRequest(requestData) {
+      $('#spinner').removeClass('hidden');
+      $.ajax({
+        url: `http://159.223.250.9/api/edit-registration/${requestData.guestinfoid}/`, // Your API endpoint URL
+        type: 'PUT',
+        data: requestData,
+        dataType: 'json',
+        success: function(data) {
+          // Handle the successful response here
+          console.log('Success:', data);
+          $('#reg-id').text(data.guestinfoid);
+          generateQrCode(data.guestinfoid);
+          $('#request-id').val(data.guestinfoid);
+          $('#notification').removeClass('hidden');
+          $('form').hide();
+          $('#spinner').addClass('hidden');
+          $('html, body').animate({scrollTop: 0}, 'slow');
+        },
+        error: function(xhr, status, error) {
+          console.error('Error:', status, error);
+          $('#spinner').addClass('hidden');
+        }
+      });
+    }
+    function generateQrCode(text) {
+      console.log('generate qr for', text);
+      $('#qrcode').text('');
+      const qrcode = new QRCode(document.getElementById("qrcode"), {
+        text: text.toString(),
+        width: 128,
+        height: 128
+      });
+    }
+  </script>
+  <style>
+    .hidden {
+      display: none;
+    }
+    .card {
+      margin: 10px auto;
+      padding: 40px;
+      border-radius: 20px;
+      background: #f5f7f7;
+    }
+  </style>
+</html>
