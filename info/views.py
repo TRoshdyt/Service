@@ -121,3 +121,18 @@ def list_exchange(request):
         ]
 
         return Response(data=request_data, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def create_service(request):
+    if request.method == 'POST':        
+        
+        try:
+            registration_data = request.data.copy()
+            sql_query = f"""
+                DECLARE @SpecificID INT = (SELECT MAX(SpecificID) FROM tblSalesCompany_Holding) + 1;
+                EXEC tblSalesCompany_Holding_UI
+            """
+            return Response(data=registration_data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(data={'result': e}, status=status.HTTP_400_BAD_REQUEST)

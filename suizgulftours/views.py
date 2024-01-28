@@ -5,5 +5,5 @@ def index(request):
     return render(request, 'index.html')
 
 
-def trips(request):
-    return render(request, 'trips.html')
+def service(request):
+    return render(request, 'service.html')
