@@ -81,12 +81,16 @@
               <tbody>
               </tbody>
             </table>
+          <div id="selectedServicesSection">
+
             <button class="btn btn-primary m-2 col float-end" style="max-width: 120px; max-height: 40px;" onClick="totalizeService()">
               Confirm
             </button>
           </div>
           <hr>
         </div>
+    </div>
+
         <div class="row">
           <h2>Selected Services</h2>
           <hr>
@@ -126,7 +130,7 @@
             </button>
           </div>
         </div>
-        <div id="receipt">
+      <div id="receipt">
           <img id="outputImage" alt="Converted Image">
         </div>
       </div>
@@ -241,7 +245,10 @@
         alert('Some dates are missing!');
         removeSummary();
         return;
+
       }
+
+     
       tableRows.each(function(index, element) {
         const elementId = $(element).attr('id')?.substring(4);
         const isChecked = $(`#check-${elementId}`).prop('checked');
@@ -289,7 +296,15 @@
         newRow.append(`<td>${value}</td>`);
         tbody.append(newRow);
       });
-    }
+       // Scroll to the selectedServicesSection, Tarek
+       const selectedServicesSection = document.getElementById('selectedServicesSection');
+       if (selectedServicesSection) {
+           selectedServicesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+         //Here End of my edit Tarek
+
+   }
+
     function getExchange() {
       $.ajax({
         url: 'http://localhost:8000/api/list-exchange/', // Your API endpoint URL
