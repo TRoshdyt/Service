@@ -325,7 +325,7 @@
       });
     }
     function showGuestDetails() {
-      if (registrationInfo !== {}) {
+      if (registrationInfo !== "") {
         $('#guest-code-help').addClass('hidden');
         $('#spinner').addClass('hidden');
         $('#name-info').text(registrationInfo.guestname);
@@ -348,7 +348,7 @@
     function showAvailableServices() {
       const tbody = $('#service-table tbody');
       tbody.empty();
-      if (availableServices !== []) {
+      if (availableServices !== "") {
         availableServices.forEach((i) => {
           const newRow = $('<tr>').attr('id', `row-${i.id}`);
           newRow.append(`<td><input type="checkbox" onClick="selectRow(${i.id})" class="row-check" id="check-${i.id}"/></td>`);
