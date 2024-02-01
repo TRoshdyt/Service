@@ -126,9 +126,84 @@
               </tr>
             </tbody>
           </table>
+<<<<<<< HEAD
           <button class="btn btn-primary" onClick="postService();" type="button">
             CONFIRM BOOKING
           </button>
+=======
+        </div>
+        <div class="col-sm-9">
+          <h2>Services</h2>
+          <div class="scrollable-content" style="overflow-y: auto;">
+            <table class="table table-condensed table-hover" id="service-table">
+              <thead>
+                <th>Select</th>
+                <th>Service</th>
+                <th>Service Date</th>
+                <th>Adult</th>
+                <th>Child</th>
+                <th>Inf</th>
+                <th>PUT</th>
+                <th>P.Adult</th>
+                <th>P.Child</th>
+                <th>P.Inf</th>
+                <th>Currency</th>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          <div id="selectedServicesSection">
+
+            <button class="btn btn-primary m-2 col float-end" style="max-width: 120px; max-height: 40px;" onClick="totalizeService()">
+              Confirm
+            </button>
+          </div>
+          <hr>
+        </div>
+    </div>
+
+        <div class="row">
+          <h2>Selected Services</h2>
+          <hr>
+          <div id="summary-services" class="col-9">
+          </div>
+          <div class="card col-3">
+            <table id="table-total" class="table table-condensed table-hover">
+              <thead>
+                <th>Currency</th>
+                <th>Amount</th>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+            <table id="currency-total" class="table table-condensed table-hover">
+              <thead>
+                <th>Currency</th>
+                <th>Paid</th>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+            <table id="rest-total" class="table table-condensed table-hover">
+              <thead>
+                <th>Currency</th>
+                <th>Rest</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><select id="rest-currency" class="form-control form-control-sm"></select></td>
+                  <td id="rest-amount" style="font-weight: bold;"></td>
+                </tr>
+              </tbody>
+            </table>
+            <button class="btn btn-primary" onClick="postService();" type="button">
+              CONFIRM BOOKING
+            </button>
+          </div>
+        </div>
+      <div id="receipt">
+          <img id="outputImage" alt="Converted Image">
+>>>>>>> 5bf6662fa58063a29bd4702ba028d9407fd986dc
         </div>
       </div>
       <div id="receipt">
@@ -259,6 +334,7 @@
 
     }
 
+<<<<<<< HEAD
 
     tableRows.each(function (index, element) {
       const elementId = $(element).attr('id')?.substring(4);
@@ -400,6 +476,132 @@
       });
     }
   }
+=======
+    function totalizeService() {
+      const dictCurrency = {};
+      const tableRows = $('#service-table tr');
+      selectedServices = [];
+      const validInput = isValidServices();
+      console.log(validInput);
+      if (!validInput) {
+        alert('Some dates are missing!');
+        removeSummary();
+        return;
+
+      }
+
+     
+      tableRows.each(function(index, element) {
+        const elementId = $(element).attr('id')?.substring(4);
+        const isChecked = $(`#check-${elementId}`).prop('checked');
+        if (isChecked) {
+          const adult = $(`#adult-${elementId}`).val();
+          const child = $(`#child-${elementId}`).val();
+          const inf = $(`#inf-${elementId}`).val();
+          const serviceName = $(`#name-${elementId}`).text();
+          const pAdult = $(`#p-adult-${elementId}`).text();
+          const pChild = $(`#p-child-${elementId}`).text();
+          const pInf = $(`#p-inf-${elementId}`).text();
+          const currency = $(`#currency-${elementId}`).text();
+          const prevValue = dictCurrency[currency] || 0;
+          const pickupTime = $(`#put-${elementId}`).text();
+          let price = parseFloat(adult) * parseFloat(pAdult);
+          price += parseFloat(child) * parseFloat(pChild);
+          price += parseFloat(inf) * parseFloat(pInf);
+          const serviceDate = $(`#date-${elementId}`).val();
+          dictCurrency[currency] = prevValue + price;
+          selectedServices.push({
+            id: elementId,
+            service: serviceName,
+            date: serviceDate,
+            adult,
+            child,
+            inf,
+            pickupTime,
+            pAdult,
+            pChild,
+            pInf,
+            price,
+            currency,
+          });
+        }
+        showRest();
+      });
+      showSummary();
+      totalCurrency = dictCurrency;
+      const tbody = $('#table-total tbody');
+      tbody.empty();
+      Object.keys(dictCurrency).forEach(function(key) {
+        var value = dictCurrency[key];
+        const newRow = $('<tr>');
+        newRow.append(`<td>${key}</td>`);
+        newRow.append(`<td>${value}</td>`);
+        tbody.append(newRow);
+      });
+       // Scroll to the selectedServicesSection, Tarek
+       const selectedServicesSection = document.getElementById('selectedServicesSection');
+       if (selectedServicesSection) {
+           selectedServicesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+         //Here End of my edit Tarek
+
+   }
+
+    function getExchange() {
+      $.ajax({
+        url: 'http://localhost:8000/api/list-exchange/', // Your API endpoint URL
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+          currencyExchange = data;
+          showCurrency();
+        },
+        error: function(xhr, status, error) {
+          console.error('Error:', status, error);
+        }
+      });
+    }
+    function postService() {
+      const requestData = {
+        bookingId: registrationInfo.guestinfoid,
+        date: new Date(),
+        services: selectedServices,
+        payment: paymentInfo,
+      };
+      $.ajax({
+        url: 'http://localhost:8000/api/create-service/', // Your API endpoint URL
+        type: 'POST',
+        dataType: 'json',
+        data: requestData,
+        success: function(data) {
+          console.log(data);
+        },
+        error: function(xhr, status, error) {
+          console.error('Error:', status, error);
+        }
+      });
+    }
+    function showGuestDetails() {
+      if (registrationInfo !== "") {
+        $('#guest-code-help').addClass('hidden');
+        $('#spinner').addClass('hidden');
+        $('#name-info').text(registrationInfo.guestname);
+        $('#dates-info').text(`${registrationInfo.arrivaldate} to ${registrationInfo.departuredate}`);
+        $('#hotel-info').text(registrationInfo.hotel_data.hotel);
+        $('#whatsapp-info').text(registrationInfo.whatsappphone);
+        $('#phone-info').text(registrationInfo.phoneegypt);
+      } else {
+        $('#guest-code-help').removeClass('hidden');
+        $('#spinner').addClass('hidden');
+        $('#name-info').text('');
+        $('#dates-info').text('');
+        $('#hotel-info').text('');
+        $('#whatsapp-info').text('');
+        $('#phone-info').text('');
+      }
+      
+    }
+>>>>>>> 5bf6662fa58063a29bd4702ba028d9407fd986dc
 
   function showSummary() {
     const summaryDev = $('#summary-services');
